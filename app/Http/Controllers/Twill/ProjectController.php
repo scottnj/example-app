@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers\Twill;
+
+use A17\Twill\Models\Contracts\TwillModelContract;
+use A17\Twill\Services\Forms\InlineRepeater;
+use A17\Twill\Services\Listings\Columns\Text;
+use A17\Twill\Services\Listings\TableColumns;
+use A17\Twill\Services\Forms\Fields\Input;
+use A17\Twill\Services\Forms\Form;
+use A17\Twill\Http\Controllers\Admin\ModuleController as BaseModuleController;
+use App\Models\Link;
+
+class ProjectController extends BaseModuleController
+{
+    protected $moduleName = 'projects';
+    /**
+     * This method can be used to enable/disable defaults. See setUpController in the docs for available options.
+     */
+    protected function setUpController(): void
+    {
+        $this->disablePermalink();
+    }
+
+    /**
+     * See the table builder docs for more information. If you remove this method you can use the blade files.
+     * When using twill:module:make you can specify --bladeForm to use a blade form instead.
+     */
+    public function getForm(TwillModelContract $model): Form
+    {
+        $form = parent::getForm($model);
+
+        $form->add(
+            Input::make()
+                ->name('description')
+                ->label('Description')
+        );
+
+        $form->add(
+            InlineRepeater::make()
+                ->name('links')
+//                ->label('Links')
+//                ->triggerText('Add link') // Can be omitted as it generates this.
+//                ->selectTriggerText('Select link') // Can be omitted as it generates this.
+//                ->allowBrowser()
+//                ->relation(Link::class)
+                ->fields([
+                    Input::make()
+                        ->name('title'),
+                    Input::make()
+                        ->name('url')
+                        ->default('https://google.com'),
+                ])
+        );
+
+        return $form;
+    }
+
+    /**
+     * This is an example and can be removed if no modifications are needed to the table.
+     */
+    protected function additionalIndexTableColumns(): TableColumns
+    {
+        $table = parent::additionalIndexTableColumns();
+
+        $table->add(
+            Text::make()->field('description')->title('Description')
+        );
+
+        return $table;
+    }
+}
