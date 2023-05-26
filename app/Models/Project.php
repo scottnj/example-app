@@ -50,6 +50,12 @@ class Project extends Model
 //            $link->url = 'https://google.com';
 //            $link->project_id = $project->id;
 //            $link->save();
+
+            /*
+             * TODO: restore doesn't seem to work here.
+             * */
+//            Link::withTrashed()->where('project_id', $project->id)->restore();
+
         });
     }
 
