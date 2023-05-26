@@ -8,25 +8,15 @@ use App\Models\Project;
 
 class ProjectRepository extends ModuleRepository
 {
-
-
     public function __construct(Project $model)
     {
         $this->model = $model;
     }
 
-
     public function afterSave($model, $fields): void
     {
-        $this->updateRepeater(
-            $model,
-            $fields,
-            'links',
-        );
-
         parent::afterSave($model, $fields);
     }
-
 
     public function getFormFields($object): array
     {
@@ -39,9 +29,5 @@ class ProjectRepository extends ModuleRepository
             'Link',
             'links',
         );
-
-//        return $fields;
     }
-
-
 }
