@@ -17,6 +17,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/storage/debugbar
 
 
 public/assets/twill
